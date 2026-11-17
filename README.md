@@ -8,6 +8,7 @@ A responsive React photo gallery with a keyboard-accessible details modal and th
 - Open individual photos in a details dialog
 - View image description, date and file type metadata
 - Switch between photos using the thumbnail strip
+- Keep keyboard focus inside the dialog and return focus to the selected photo when it closes
 - Close the dialog using the close button, backdrop or Escape key
 - Preserve the original image assets in the public directory
 
@@ -54,6 +55,6 @@ npm run build
 
 Photo metadata is maintained in `src/content/data.js`. Place image assets in `public/images/` and reference them using paths beginning with `/images/`. Use meaningful names, accurate descriptions and correct file types.
 
-## License
+## Privacy and image rights
 
-No license has been specified. Contact the repository owner before reusing or redistributing this project or its photographs.
+The repository includes image assets. Confirm that you own or have permission to publish each photograph before deploying the gallery publicly. No license has been specified; contact the repository owner before reusing or redistributing this project or its photographs.
