@@ -1,85 +1,43 @@
-import { useState } from 'react';
-import { data } from './content/data';
-import Modal from './modal/modal';
-import Header from './components/Header';
-
+import { useState } from "react";
+import { data } from "./content/data";
+import Modal from "./modal/modal";
+import Header from "./components/Header";
+import "./App.css";
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState(null);
 
   return (
-    <>
-      {showModal&&<Modal setShowModal={setShowModal} setSelectedContent={setSelectedContent} content={selectedContent} data={data}/>}
-      <div style={styles.main}>
-        <Header title="Photo Gallery" subtitle="Built by Tarun Tiwari" />
-        <div style={styles.container}>
-          {data.map((image_data, index) => {
-            return (
-              <div style={styles.imageContainer}
-                onClick={() => {
-                  setShowModal(true);
-                  setSelectedContent(image_data);
-                }}
-              >
-                <img style={styles.image} src={image_data.url} />
-                <div style={styles.imageDescription}>
-                  <p style={styles.imageDescriptionText}>{image_data.name}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </>
+    <main className="gallery-page">
+      <Header title="Photo Gallery" subtitle="A small collection of photographs" />
+      <section className="gallery-grid" aria-label="Photo collection">
+        {data.map((imageData) => (
+          <button
+            type="button"
+            className="photo-card"
+            key={imageData.name}
+            onClick={() => setSelectedContent(imageData)}
+            aria-label={`Open ${imageData.name}`}
+          >
+            <img
+              src={imageData.url}
+              alt={imageData.name}
+              loading="lazy"
+            />
+            <span>{imageData.name}</span>
+          </button>
+        ))}
+      </section>
+
+      {selectedContent && (
+        <Modal
+          content={selectedContent}
+          data={data}
+          setSelectedContent={setSelectedContent}
+        />
+      )}
+    </main>
   );
 }
 
-
-const styles = {
-  main: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#f0f0f0',
-    flexDirection: "column"
-  },
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 10,
-    maxWidth: "60vw"
-  },
-  imageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    cursor: 'pointer',
-  },
-  image: {
-    width: '250px',
-    height: '250px',
-    objectFit: 'cover',
-  },
-  imageDescription: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    width: '100%',
-    height: '50px',
-    backgroundColor: '#000000',
-    opacity: '0.5',
-  },
-  imageDescriptionText: {
-    color: '#ffffff',
-    fontSize: '16px',
-    fontWeight: 'bold',
-  },
-}
-
-export default App
+export default App;
