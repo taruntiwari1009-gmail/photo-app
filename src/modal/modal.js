@@ -39,7 +39,7 @@ const Modal = ({ data, content, onSelect, onClose }) => {
           </button>
         </header>
 
-        <div style={styles.detailsLayout}>
+        <div className="photo-gallery-modal-layout" style={styles.detailsLayout}>
           <div style={styles.photoColumn}>
             <img style={styles.modalImage} src={url} alt={name || "Selected gallery photo"} />
             {description && <p style={styles.description}>{description}</p>}
