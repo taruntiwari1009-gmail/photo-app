@@ -1,38 +1,236 @@
-.App {
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.gallery-page {
+  min-height: 100vh;
+  background: #f2f4f7;
+  color: #202a35;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.gallery-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 170px;
+  padding: 2rem 1.5rem;
+  background: linear-gradient(135deg, #263746, #496b82);
+  color: #fff;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.gallery-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.2rem);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.gallery-header p {
+  margin: 0.5rem 0 0;
+  color: #d7e3eb;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.1rem;
+  width: min(1100px, calc(100% - 2rem));
+  margin: 2rem auto;
+}
+
+.photo-card {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 5px 18px rgba(20, 36, 50, 0.1);
+  color: #263746;
+  cursor: pointer;
+  text-align: left;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.photo-card:hover,
+.photo-card:focus-visible {
+  transform: translateY(-3px);
+  box-shadow: 0 9px 24px rgba(20, 36, 50, 0.16);
+}
+
+.photo-card:focus-visible,
+.modal-close:focus-visible,
+.thumbnail:focus-visible {
+  outline: 3px solid #729ab3;
+  outline-offset: 3px;
+}
+
+.photo-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.photo-card span {
+  padding: 0.9rem 1rem;
+  font-weight: 650;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow-y: auto;
+  padding: 1.5rem;
+  background: rgba(8, 16, 24, 0.78);
 }
 
-.App-link {
-  color: #61dafb;
+.photo-modal {
+  width: min(900px, 100%);
+  max-height: min(90vh, 900px);
+  overflow-y: auto;
+  padding: 1.4rem;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-header h2 {
+  margin: 0;
+  color: #263746;
+}
+
+.modal-header p {
+  margin: 0.4rem 0 0;
+  color: #63717c;
+}
+
+.modal-close {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: #edf1f4;
+  color: #263746;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+.modal-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+.modal-image-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #eef1f3;
+}
+
+.modal-image-panel img {
+  display: block;
+  max-width: 100%;
+  max-height: 58vh;
+  object-fit: contain;
+}
+
+.photo-metadata {
+  margin: 0;
+}
+
+.photo-metadata div {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #e5e9ed;
+}
+
+.photo-metadata dt {
+  color: #71808c;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.photo-metadata dd {
+  margin: 0.25rem 0 0;
+  color: #263746;
+  font-weight: 650;
+}
+
+.thumbnail-strip {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  margin-top: 1.2rem;
+  padding: 0.25rem 0 0.6rem;
+}
+
+.thumbnail {
+  flex: 0 0 76px;
+  width: 76px;
+  height: 76px;
+  overflow: hidden;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: #edf1f4;
+  cursor: pointer;
+}
+
+.thumbnail.active {
+  border-color: #496b82;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 650px) {
+  .gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .modal-backdrop {
+    align-items: flex-start;
+    padding: 0.75rem;
+  }
+
+  .photo-modal {
+    padding: 1rem;
+  }
+
+  .modal-details {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-image-panel {
+    min-height: 180px;
+  }
+
+  .modal-image-panel img {
+    max-height: 45vh;
   }
 }
