@@ -14,6 +14,7 @@ test("opens a photo in the accessible details modal", () => {
 test("closes the photo modal with Escape and restores focus to the gallery card", () => {
   render(<App />);
   const photoCard = screen.getByRole("button", { name: "Open Photo 2" });
+  photoCard.focus();
   fireEvent.click(photoCard);
 
   fireEvent.keyDown(window, { key: "Escape" });
