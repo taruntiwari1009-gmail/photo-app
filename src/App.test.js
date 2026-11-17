@@ -15,7 +15,7 @@ test("opens photo details and switches to another photo", () => {
   expect(screen.getByRole("dialog")).toBeInTheDocument();
   expect(screen.getByRole("heading", { name: "Photo 1" })).toBeInTheDocument();
 
-  fireEvent.click(screen.getByRole("button", { name: "View Photo 2" }));
+  fireEvent.click(screen.getByRole("button", { name: "Select Photo 2 thumbnail" }));
   expect(screen.getByRole("heading", { name: "Photo 2" })).toBeInTheDocument();
 });
 
