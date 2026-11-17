@@ -64,7 +64,7 @@ const Modal = ({ data, content, onSelect, onClose }) => {
               key={imageData.url + imageData.name}
               style={styles.pickerButton}
               onClick={() => onSelect(imageData)}
-              aria-label={`View ${imageData.name || `photo ${index + 1}`}`}
+              aria-label={`Select ${imageData.name || `photo ${index + 1}`} thumbnail`}
               aria-current={imageData.url === url ? "true" : undefined}
             >
               <img
