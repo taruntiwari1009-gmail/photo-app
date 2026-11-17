@@ -1,85 +1,95 @@
-import { useState } from 'react';
-import { data } from './content/data';
-import Modal from './modal/modal';
-import Header from './components/Header';
-
+import { useState } from "react";
+import { data } from "./content/data";
+import Modal from "./modal/modal";
+import Header from "./components/Header";
 
 function App() {
-  const [showModal, setShowModal] = useState(false);
   const [selectedContent, setSelectedContent] = useState(null);
 
+  const closeModal = () => setSelectedContent(null);
+
   return (
-    <>
-      {showModal&&<Modal setShowModal={setShowModal} setSelectedContent={setSelectedContent} content={selectedContent} data={data}/>}
-      <div style={styles.main}>
-        <Header title="Photo Gallery" subtitle="Built by Tarun Tiwari" />
-        <div style={styles.container}>
-          {data.map((image_data, index) => {
-            return (
-              <div style={styles.imageContainer}
-                onClick={() => {
-                  setShowModal(true);
-                  setSelectedContent(image_data);
-                }}
-              >
-                <img style={styles.image} src={image_data.url} />
-                <div style={styles.imageDescription}>
-                  <p style={styles.imageDescriptionText}>{image_data.name}</p>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </>
+    <main style={styles.main}>
+      <Header title="Photo Gallery" subtitle="A small collection of photographs" />
+      <section style={styles.container} aria-label="Photo gallery">
+        {data.map((imageData, index) => (
+          <button
+            type="button"
+            key={imageData.url + imageData.name}
+            style={styles.imageButton}
+            className="gallery-image-button"
+            onClick={() => setSelectedContent(imageData)}
+            aria-label={`View ${imageData.name}`}
+          >
+            <img
+              style={styles.image}
+              src={imageData.url}
+              alt={imageData.name || `Gallery photo ${index + 1}`}
+              loading="lazy"
+            />
+            <span style={styles.imageDescription}>
+              <span style={styles.imageDescriptionText}>{imageData.name}</span>
+            </span>
+          </button>
+        ))}
+      </section>
+
+      {selectedContent && (
+        <Modal
+          content={selectedContent}
+          data={data}
+          onClose={closeModal}
+          onSelect={setSelectedContent}
+        />
+      )}
+    </main>
   );
 }
 
-
 const styles = {
   main: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#f0f0f0',
-    flexDirection: "column"
+    display: "flex",
+    alignItems: "center",
+    width: "100%",
+    minHeight: "100vh",
+    backgroundColor: "#f0f0f0",
+    flexDirection: "column",
+    paddingBottom: 32,
   },
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    gap: 10,
-    maxWidth: "60vw"
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
+    gap: 12,
+    width: "min(100% - 32px, 1100px)",
+    marginTop: 24,
   },
-  imageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    cursor: 'pointer',
+  imageButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "stretch",
+    padding: 0,
+    border: 0,
+    background: "#000",
+    cursor: "pointer",
+    overflow: "hidden",
   },
   image: {
-    width: '250px',
-    height: '250px',
-    objectFit: 'cover',
+    width: "100%",
+    aspectRatio: "1 / 1",
+    objectFit: "cover",
   },
   imageDescription: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignContent: 'center',
-    width: '100%',
-    height: '50px',
-    backgroundColor: '#000000',
-    opacity: '0.5',
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    minHeight: 44,
+    backgroundColor: "#000000",
+    color: "#ffffff",
   },
   imageDescriptionText: {
-    color: '#ffffff',
-    fontSize: '16px',
-    fontWeight: 'bold',
+    fontSize: 16,
+    fontWeight: "bold",
   },
-}
+};
 
-export default App
+export default App;
